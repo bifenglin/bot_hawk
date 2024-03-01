@@ -11,6 +11,7 @@ class BaseConfig:
     CLICKHOUSE_DATABASE = ''
 
 
+
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     TESTING = True

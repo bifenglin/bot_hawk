@@ -241,7 +241,7 @@ def clickhouse_quey(user):
     result = clickhouse.execute_query(query)
     # 将这些日期转换为DataFrame
     df = pd.DataFrame(result, columns=['created_at'])
-
+    df['created_at'] = pd.to_datetime(df['created_at'])
     # 为简化，我们假设每个日期对应一个事件，生成每日计数
     # 实际情况下，你应该使用从数据库获取的真实事件数据
     df['count'] = 1

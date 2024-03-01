@@ -10,24 +10,24 @@ def get_user_info_by_id(actor_ids, api_token):
         actor_ids = [actor_ids]
 
     for actor_id in actor_ids:
-        # try:
-        user = g.get_user_by_id(int(actor_id))
-        user_dict = {
-            'id': user.id,
-            'login': user.login,
-            'name': user.name if user.name is not None else '',
-            'email': user.email if user.email is not None else '',
-            'type': user.type,
-            # 'location': user.location if user.location is not None else '',
-            'bio': user.bio if user.bio is not None else '',
-            'followers': user.followers,
-            'following': user.following,
-            # 'blog': user.blog if user.blog is not None else '',
-        }
-        users.append(user_dict)
-        # except Exception as e:
-        #     print(f"Failed to retrieve information for user '{actor_id}': {str(e)}")
-        #     err_user.append(actor_id)
+        try:
+            user = g.get_user_by_id(int(actor_id))
+            user_dict = {
+                'id': user.id,
+                'login': user.login,
+                'name': user.name if user.name is not None else '',
+                'email': user.email if user.email is not None else '',
+                'type': user.type,
+                # 'location': user.location if user.location is not None else '',
+                'bio': user.bio if user.bio is not None else '',
+                'followers': user.followers,
+                'following': user.following,
+                # 'blog': user.blog if user.blog is not None else '',
+            }
+            users.append(user_dict)
+        except Exception as e:
+            print(f"Failed to retrieve information for user '{actor_id}': {str(e)}")
+            err_user.append(actor_id)
 
     return users
 

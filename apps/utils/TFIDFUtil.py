@@ -56,10 +56,7 @@ class TFIDFUtil:
 
     def calculate_similarity(self, documents):
         clean_documents = [self.clean_doc(self.clean_tuple(doc)) if isinstance(doc, tuple) else self.clean_doc(doc) for doc in documents]
-        tfidf_similarity_matrix = self.get_tfidf_similarity(clean_documents)
-
-        # 计算平均相似度
-        avg_similarity = tfidf_similarity_matrix.mean()
+        avg_similarity = self.get_tfidf_similarity(clean_documents)
         return avg_similarity
 
 # # 使用示例

@@ -58,11 +58,11 @@
             success: function(data) {
                 $('#loadingSection').hide();
                 let predictionText = data.prediction_list[0] === 1 ? "Bot" : "Human";
-                let badgeClass = data.prediction_list[0] === 1 ? "badge-danger" : "badge-success"; // Bot为红色，Human为绿色
+                {#let badgeClass = data.prediction_list[0] === 1 ? "badge-danger" : "badge-success"; // Bot为红色，Human为绿色#}
                 // 构建展示用户信息的HTML
                 let userInfoHtml = `
             <h2>Result:</h2>
-            <p>Prediction: <span class="badge ${badgeClass}">${predictionText}</span></p> <!-- 突出显示预测结果 -->
+            <p>Prediction: <strong>${predictionText}<strong></p> <!-- 突出显示预测结果 -->
             <h2>User Information:</h2>
             <p>Login: ${data.data.login}</p>
             <p>Name: ${data.data.name}</p>
