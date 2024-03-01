@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Account Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5">GitHub Account Checker</h1>
+    <form id="checkForm" class="mt-3">
+        <div class="mb-3">
+            <label for="accountInput" class="form-label">GitHub Username or ID</label>
+            <input type="text" class="form-control" id="accountInput" name="account" required>
+        </div>
+        <!-- 新增单选按钮以选择用户名或ID -->
+        <div class="mb-3">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="accountType" id="usernameRadio" value="username" checked>
+                <label class="form-check-label" for="usernameRadio">Username</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="accountType" id="idRadio" value="id">
+                <label class="form-check-label" for="idRadio">ID</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Check</button>
+        <!-- Spinner -->
+        <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </form>
+    <div id="result" class="mt-3"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#checkForm').on('submit', function(e) {
+        e.preventDefault();
+        // 显示 Spinner
+        $('#loadingSpinner').show();
+
+        // 设置为application/json
+        $.ajax({
+            url: '/api/user',  // 确保这里是正确的URL
+            type: 'POST',
+            contentType: 'application/json', // 显式设置Content-Type为application/json
+            data: JSON.stringify({
+                account: $('#accountInput').val(),
+                accountType: $('input[name="accountType"]:checked').val()
+            }),
+            success: function(data) {
+                // 隐藏 Spinner
+                $('#loadingSpinner').hide();
+                let predictionText = data.prediction_list[0] === 1 ? "Bot" : "Human";
+                // 构建展示用户信息的HTML
+                let userInfoHtml = `
+            <h2>User Information:</h2>
+            <p>Login: ${data.data.login}</p>
+            <p>Name: ${data.data.name}</p>
+            <p>Email: ${data.data.email}</p>
+            <p>Bio: ${data.data.bio}</p>
+            <p>Number of Followers: ${data.data['Number of followers']}</p>
+            <p>Number of Following: ${data.data['Number of following']}</p>
+            <p>TF-IDF Similarity: ${data.data.tfidf_similarity}</p>
+            <p>Number of Activity: ${data.data['Number of Activity']}</p>
+            <p>Number of Issue: ${data.data['Number of Issue']}</p>
+            <p>Number of Pull Request: ${data.data['Number of Pull Request']}</p>
+            <p>Number of Repository: ${data.data['Number of Repository']}</p>
+            <p>Number of Commit: ${data.data['Number of Commit']}</p>
+            <p>Number of Active Day: ${data.data['Number of Active day']}</p>
+            <p>Periodicity of Activities: ${data.data['Periodicity of Activities']}</p>
+            <p>Number of Connection Account: ${data.data['Number of Connection Account']}</p>
+            <p>Median Response Time: ${data.data['Median Response Time']}</p>
+            <p>Prediction: ${predictionText}</p>
+            `;
+                $('#result').html(userInfoHtml);
+            },
+
+            error: function() {
+                $('#loadingSpinner').hide();
+                $('#result').html(`<p>An error occurred. Please try again.</p>`);
+            }
+        });
+    });
+</script>
+</body>
+</html>
