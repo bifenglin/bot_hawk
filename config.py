@@ -7,8 +7,9 @@ class BaseConfig:
     GITHUB_API_TOKEN = ""
     CLICKHOUSE_HOST = ''
     CLICKHOUSE_USER = ''
-    CLICKHOUSE_PASSWORD = '!'
+    CLICKHOUSE_PASSWORD = ''
     CLICKHOUSE_DATABASE = ''
+
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True

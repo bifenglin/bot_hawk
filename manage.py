@@ -1,6 +1,9 @@
 import os
 import sys
 
+import nltk
+nltk.download('stopwords')
+
 def init_env_path(_file_):
     package_dir = os.path.join(os.path.dirname(_file_), '../')
     abs_path = os.path.abspath(package_dir)
